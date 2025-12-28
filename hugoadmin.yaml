@@ -1,0 +1,10 @@
+# hugoadmin.yaml - Configuration for hugoadmin.py
+Sites:
+- /home/user/src/hugo/test
+- /home/user/src/hugo/hfranz
+TemplatesPath: /home/user/src/hugo/templates
+extraTemplates:
+- /home/user/src/hugo/test/content/blog/newpost/index.md
+Editor: kate
+Server: 'hugo server --disableFastRender'
+Build: hugo
