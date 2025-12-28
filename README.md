@@ -1,4 +1,5 @@
 ## hugoadmin.py - a simple Python GUI Tool that helps to manage the content in local Hugo Repositories
+![](./hugoadmin.png)
 This Program ist a litte Helper that makes content administration (create/edit/check Pages..) of local Hugo Sites a bit easier.  
 With this, you can eaysily
 -	Choose the Hugo Repo you like to work on
