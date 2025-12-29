@@ -66,8 +66,17 @@ class MainWindow(QMainWindow, hugoadmin_ui.Ui_MainWindow):
 		self.menuTemplate_Path.clear()	#	important !
 		templates = []
 		templates = glob.glob(self.cfg['TemplatesPath']+"/*.md")
-		for template in self.cfg["extraTemplates"]:
-			templates.append(template)
+		if (self.cfg["extraTemplates"]):
+			for template in self.cfg["extraTemplates"]:
+				templates.append(template)
+		if (len(templates) < 1):
+			msg_box = QMessageBox(self)
+			msg_box.setText("no valid Templates found, please check Configuration and restart !")
+			msg_box.setWindowTitle('Warning:')
+			msg_box.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
+			msg_box.exec()
+			app.quit()
+	
 		print("Templates:", templates) 
 		self.TemplateUsed.setText(templates[0])
 		for template in templates:
