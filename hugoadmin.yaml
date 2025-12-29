@@ -1,10 +1,10 @@
-# hugoadmin.yaml - Configuration for hugoadmin.py
-Sites:
+# hugoadmin.yaml - Configuration for hugoadmin.py - to be used as a blueprint for $HOME/.config/hugoadmin.yaml
+Sites:  # these are the base directories of your existing hugo projects - at least one is required
 - /home/user/src/hugo/test
 - /home/user/src/hugo/hfranz
-TemplatesPath: /home/user/src/hugo/templates
-extraTemplates:
+TemplatesPath: /home/user/src/hugo/templates    # the Folder where standard templates (Markdown files) are located, mandatory
+extraTemplates: # here you can define any markdown files that can be used as a template, this entry is optional
 - /home/user/src/hugo/test/content/blog/newpost/index.md
-Editor: kate
-Server: 'hugo server --disableFastRender'
-Build: hugo
+Editor: kate    # your favourite Text Editor
+Server: 'hugo server --disableFastRender'   # this is the command to start the local Hugo Server
+Build: hugo # Command to build a project for publishing

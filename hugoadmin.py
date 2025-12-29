@@ -199,40 +199,56 @@ class MainWindow(QMainWindow, hugoadmin_ui.Ui_MainWindow):
 		print("Start Dir", startdir)
 		dir = str(QFileDialog.getExistingDirectory(self, "Select Base Directory", startdir, options=QFileDialog.Option.ShowDirsOnly,))
 		print("selected dir: ", dir)
+		Ok = False
 		if (dir):
 			newdir, Ok = QInputDialog.getText(
              self, 'Input Dialog', 'New Page Name:') 
-		print("new dir: ", newdir)
-		newdir = dir + "/" + newdir
-		if (newdir):
-			if not os.path.exists(newdir):
-				os.makedirs(newdir)
-				index = self.PageTypecomboBox.currentIndex()
-				if (index == 0):	# leaf
-					mdname = "/index.md"
+		if (Ok):
+			print("new dir: ", newdir)
+			newdir = dir + "/" + newdir
+			if (newdir):
+				if not os.path.exists(newdir):
+					os.makedirs(newdir)
+					index = self.PageTypecomboBox.currentIndex()
+					if (index == 0):	# leaf
+						mdname = "/index.md"
+					else:
+						mdname = "/_index"	#branch
+					indexfile = self.TemplateUsed.text()
+					if (os.path.isfile(indexfile)):
+						shutil.copyfile(indexfile, newdir + mdname)
+						print("created ", newdir + mdname)
+						indexfile = newdir + "/" + mdname
+						command = self.cfg["Editor"] + " " + indexfile
+						#print("command: ", command)
+						
+						#subprocess.run(command, shell = True, executable="/bin/bash")
+						if self.p is None:
+							self.p = QProcess()
+							self.p.finished.connect(self.process_finished)  # Clean up once complete.
+							self.p.readyReadStandardOutput.connect(self.handle_stdout)
+							self.p.readyReadStandardError.connect(self.handle_stderr)
+							self.p.stateChanged.connect(self.handle_state)
+							print("starting command: ", command)
+							self.p.start(command)
+							
+						self.message("created new Page at: " + indexfile)
+						if(self.FMcheckBox.isChecked()):
+							if os.path.isdir(newdir):
+								show_in_file_manager(newdir)
+					else:
+						msg_box = QMessageBox(self)
+						msg_box.setText(indexfile + " is not a valid Template !")
+						msg_box.setWindowTitle('Warning:')
+						msg_box.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
+						msg_box.exec()
 				else:
-					mdname = "/_index"	#branch
-				shutil.copyfile(self.TemplateUsed.text(), newdir + mdname)
-				print("created ", newdir + mdname)
-				indexfile = newdir + "/" + mdname
-				command = self.cfg["Editor"] + " " + indexfile
-				#print("command: ", command)
-				
-				#subprocess.run(command, shell = True, executable="/bin/bash")
-				if self.p is None:
-					self.p = QProcess()
-					self.p.finished.connect(self.process_finished)  # Clean up once complete.
-					self.p.readyReadStandardOutput.connect(self.handle_stdout)
-					self.p.readyReadStandardError.connect(self.handle_stderr)
-					self.p.stateChanged.connect(self.handle_state)
-					print("starting command: ", command)
-					self.p.start(command)
-					
-				self.message("created new Page at: " + indexfile)
-				if(self.FMcheckBox.isChecked()):
-					if os.path.isdir(newdir):
-						show_in_file_manager(newdir)
-		
+					msg_box = QMessageBox(self)
+					msg_box.setText(newdir + " already exists, no Action taken !")
+					msg_box.setWindowTitle('Warning:')
+					msg_box.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
+					msg_box.exec()
+			
 	def SetProjectPath(self):
 		self.plainTextEdit.clear()	#	important !
 		selectedPath = self.sender()
