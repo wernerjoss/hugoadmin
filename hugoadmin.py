@@ -11,6 +11,7 @@ from os.path import expanduser
 import yaml
 from showinfm import show_in_file_manager
 import re
+import webbrowser
 
 import hugoadmin_ui
 
@@ -81,6 +82,7 @@ class MainWindow(QMainWindow, hugoadmin_ui.Ui_MainWindow):
 		self.PageButton.clicked.connect(self.NewPage)
 		self.SrvStartButton.clicked.connect(self.StartServer)
 		self.SrvStopButton.clicked.connect(self.StopServer)
+		self.HelpButton.clicked.connect(self.help)
 		self.SrvStopButton.setEnabled(False)
 			
 	def handle_stderr(self):

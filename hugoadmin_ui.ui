@@ -115,7 +115,7 @@
    <widget class="QPushButton" name="SrvStartButton">
     <property name="geometry">
      <rect>
-      <x>850</x>
+      <x>670</x>
       <y>120</y>
       <width>110</width>
       <height>40</height>
@@ -128,7 +128,7 @@
    <widget class="QPushButton" name="SrvStopButton">
     <property name="geometry">
      <rect>
-      <x>730</x>
+      <x>550</x>
       <y>120</y>
       <width>110</width>
       <height>40</height>
@@ -136,6 +136,19 @@
     </property>
     <property name="text">
      <string>Stop Server</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="HelpButton">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>120</y>
+      <width>110</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Help</string>
     </property>
    </widget>
   </widget>
